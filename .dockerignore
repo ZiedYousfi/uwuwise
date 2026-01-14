@@ -1,0 +1,24 @@
+# Dependencies
+bin/
+vendor/
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Build artifacts
+*.exe
+*.test
+*.out
+
+# Environment variables
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
