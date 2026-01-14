@@ -21,7 +21,7 @@ it does:
 ## how to summon me
 
 just type:
-uwu <youw text hewe>
+UwU <youw text hewe>
 
 settings (if you want to be extwa):
 
@@ -30,9 +30,10 @@ settings (if you want to be extwa):
 - --no-nya  : stops da nyanyanya (if you'we a hater)
 
 exampwes:
-uwu i weally wove codiiing and pwaying games
-uwu --stuttew --faces o-omg you'we so pwetty
-uwu --no-nya wets go to da pawk i guesss
+
+UwU i weally wove codiiing and pwaying games
+UwU --stuttew --faces o-omg you'we so pwetty
+UwU --no-nya wets go to da pawk i guesss
 
 ## techy stuffies
 
