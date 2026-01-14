@@ -3,8 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"regexp"
 	"strings"
 )
+
+const LIMIT_REPEATED_VOWELS = 2
 
 type UwuFlags struct {
 	Stutter bool
@@ -55,7 +58,70 @@ func NewMessageFromStr(input string) (*MessageToUwuify, error) {
 }
 
 func (m *MessageToUwuify) Uwuify() string {
-	// --- IMPLEMENTATION OF MODIFICATION HERE ---
+	result := m.Content
 
-	return m.Content
+	// Protection phase: Identify parts to ignore (mentions, emojis, URLs)
+	ignoreRegex := regexp.MustCompile(`(https?://\S+|<a?:\w+:[0-9]+>|<@!?[0-9]+>|<#[0-9]+>|<@&[0-9]+>)`)
+	var protected []string
+	result = ignoreRegex.ReplaceAllStringFunc(result, func(match string) string {
+		protected = append(protected, match)
+		return fmt.Sprintf("{{P%d}}", len(protected)-1)
+	})
+
+	// Transformation phase
+
+	// Replace 'r' and 'l' with 'w'
+	result = regexp.MustCompile(`[rl]`).ReplaceAllString(result, "w")
+	result = regexp.MustCompile(`[RL]`).ReplaceAllString(result, "W")
+
+	// N + vowel replacement
+	if !m.Flags.NoNya {
+		nyaCount := 0
+		result = regexp.MustCompile(`[nN]([aeiouyAEIOUY])`).ReplaceAllStringFunc(
+			result,
+			func(match string) string {
+				replacement := "ny"
+				if nyaCount%2 == 0 {
+					replacement += "aa"
+				} else {
+					replacement += "ee"
+				}
+				nyaCount++
+				return replacement
+			},
+		)
+	}
+
+	// Add stuttering
+	if m.Flags.Stutter {
+		result = regexp.MustCompile(`\b([a-zA-Z])`).ReplaceAllStringFunc(
+			result,
+			func(match string) string {
+				return fmt.Sprintf("%s-%s", match, match)
+			},
+		)
+	}
+
+	// Repeated vowels
+	vowels := "aeiouyAEIOUY"
+	for _, v := range vowels {
+		re := regexp.MustCompile(fmt.Sprintf("[%c]{%d,}", v, LIMIT_REPEATED_VOWELS+1))
+		result = re.ReplaceAllString(result, string(v))
+	}
+
+	// Restoration phase: Replace placeholders back with original content
+	for i, original := range protected {
+		placeholder := fmt.Sprintf("{{P%d}}", i)
+		result = strings.ReplaceAll(result, placeholder, original)
+	}
+
+	// Add faces if requested
+	if m.Flags.Faces {
+		faces := []string{"uwu", ">w<", "^w^", ":3", "owo", "x3", "rawr"}
+		// Use a simple selection based on message length as a pseudo-random seed
+		face := faces[len(result)%len(faces)]
+		result = result + " " + face
+	}
+
+	return result
 }
