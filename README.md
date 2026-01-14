@@ -50,7 +50,9 @@ DISCORD_TOKEN="youw_secwet_token_uwu"
 
 ## wunning it
 
-go wun ./cmd/uwuwise
+```sh
+DISCORD_TOKEN="youw_secwet_token_uwu" go run main.go
+```
 
 ## pwease be gentwe
 
