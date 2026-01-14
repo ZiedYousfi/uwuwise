@@ -62,5 +62,6 @@ uwuwise twies its best not to bweak:
 
 but if it mess up... sowwy... i’m just a wittle bot... >.<
 
-<!-- ## made by...
-inaya (she did dis. she is vewy smawt and cute. *pats head*) -->
+## made by
+
+inaya (she did dis. she is vewy smawt and cute. *pats head*)
